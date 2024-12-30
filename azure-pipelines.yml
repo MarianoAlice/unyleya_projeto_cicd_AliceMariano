@@ -12,10 +12,6 @@ variables:
   solution: '**/*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
-  imageRepository: 'marianoalice/unyleya_engenharia_ml_2024'
-  dockerfilePath: 'https://hub.docker.com/repository/docker/marianoalice/unyleya_engenharia_ml_2024/general'
-  tag: '$(Build.BuildId)' # Gera um número de build único para a tag
-
 
 steps:
 
@@ -67,23 +63,3 @@ steps:
 - task: PublishPipelineArtifact@1
   inputs:
        artifactName: # 'drop'
-
- 
-# Build da imagem Docker
-- task: Docker@2
-  displayName: 'Build da imagem Docker'
-  inputs:
-    command: build
-    dockerfile: $(dockerfilePath)
-    tags: |
-      $(imageRepository):$(tag)
-      $(imageRepository):latest
-
-  # Push da imagem para o Docker Hub
-- task: Docker@2
-  displayName: 'Push da imagem para o Docker Hub'
-  inputs:
-    command: push
-    tags: |
-      $(imageRepository):$(tag)
-      $(imageRepository):latest
